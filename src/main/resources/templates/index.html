@@ -29,8 +29,8 @@
 								<thead>
 									<tr>
 										<th>Name</th>
-										<th>Video link</th>
-										<th>User id</th>
+										<th>OwnerId</th>
+										<th>Category</th>
 										<th>Edit</th>
 										<th>Delete</th>
 									</tr>
@@ -38,12 +38,12 @@
 								<tbody>
 									<tr th:each="course : ${courses}">
 										<td th:text="${course.name}"></td>
-										<td th:text="${course.video}"></td>
-										<td th:text="${course.userId}"></td>
+										<td th:text="${course.ownerId}"></td>
+										<td th:text="${course.category}"></td>
 										<td><a th:href="@{/courses/edit/{id}(id=${course.id})}"
-												class="btn btn-primary"><i class="fas fa-book-edit ml-2"></i></a></td>
+												class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>
 										<td><a th:href="@{/courses/delete/{id}(id=${course.id})}"
-												class="btn btn-primary"><i class="fas fa-book-times ml-2"></i></a></td>
+												class="btn btn-primary"><i class="fas fa-times ml-2"></i></a></td>
 										<td><a th:href="@{/courses/view/{id}(id=${course.id})}"
 												class="btn btn-primary"><i class="fas fa-book-open ml-2"></i></a></td>
 									</tr>

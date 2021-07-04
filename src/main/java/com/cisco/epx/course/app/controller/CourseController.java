@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cisco.epx.course.app.entity.Course;
-import com.cisco.epx.course.app.repository.CourseRepository;
+import com.cisco.epx.course.app.model.Course;
+import com.cisco.epx.course.app.services.CourseService;
 
 @Controller
 @RequestMapping("/courses/")
 public class CourseController {
 
-	private final CourseRepository courseRepository;
+	private final CourseService courseService;
 
 	@Autowired
-	public CourseController(CourseRepository courseRepository) {
-		this.courseRepository = courseRepository;
+	public CourseController(CourseService courseRepository) {
+		this.courseService = courseRepository;
 	}
 
 	@GetMapping("add")
@@ -32,7 +32,8 @@ public class CourseController {
 
 	@GetMapping("list")
 	public String showUpdateForm(Model model) {
-		model.addAttribute("courses", courseRepository.findAll());
+		System.out.println(courseService.findAll().size());
+		model.addAttribute("courses", courseService.findAll());
 		return "index";
 	}
 
@@ -42,45 +43,52 @@ public class CourseController {
 			return "add-course";
 		}
 
-		courseRepository.save(course);
+		courseService.save(course);
 		return "redirect:list";
 	}
 
 	@GetMapping("edit/{id}")
-	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		Course course = courseRepository.findById(id)
+	public String showUpdateForm(@PathVariable("id") String id, Model model) {
+		Course course = courseService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
 		model.addAttribute("course", course);
 		return "update-course";
 	}
 
 	@GetMapping("view/{id}")
-	public String showCourse(@PathVariable("id") long id, Model model) {
-		Course course = courseRepository.findById(id)
+	public String showCourse(@PathVariable("id") String id, Model model) {
+		Course course = courseService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
 		model.addAttribute("course", course);
 		return "view-course";
 	}
 
 	@PostMapping("update/{id}")
-	public String updateCourse(@PathVariable("id") long id, @Valid Course course, BindingResult result,
+	public String updateCourse(@PathVariable("id") String id, @Valid Course course, BindingResult result,
 			Model model) {
-		if (result.hasErrors()) {
-			course.setId(id);
+		if (result.hasErrors()) {			
 			return "update-course";
 		}
 
-		courseRepository.save(course);
-		model.addAttribute("courses", courseRepository.findAll());
+		courseService.save(course);
+		model.addAttribute("courses", courseService.findAll());
 		return "index";
 	}
 
 	@GetMapping("delete/{id}")
-	public String deleteCourse(@PathVariable("id") long id, Model model) {
-		Course course = courseRepository.findById(id)
+	public String deleteCourse(@PathVariable("id") String id, Model model) {
+		Course course = courseService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
-		courseRepository.delete(course);
-		model.addAttribute("courses", courseRepository.findAll());
+		courseService.delete(course);
+		model.addAttribute("courses", courseService.findAll());
 		return "index";
+	}
+	
+	@GetMapping("course/{id}/chapters/radd")
+	public String showCourseChapters(@PathVariable("id") String id, Model model) {
+		Course course = courseService.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
+		model.addAttribute("course", course);
+		return "update-course";
 	}
 }
