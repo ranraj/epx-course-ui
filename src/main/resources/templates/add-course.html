@@ -34,15 +34,15 @@
 							<div class="form-group col-md-8">
 								<label for="video" class="col-form-label">Owner Id</label> <input
 									type="text" th:field="*{ownerId}" class="form-control" id="ownerId"
-									placeholder="Video link"> <span
+									placeholder="Owner Id"> <span
 									th:if="${#fields.hasErrors('ownerId')}" th:errors="*{ownerId}"
 									class="text-danger"></span>
 							</div>
 
 							<div class="form-group col-md-8">
-								<label for="userId" class="col-form-label">User ID</label> <input
+								<label for="userId" class="col-form-label">Category</label> <input
 									type="text" th:field="*{category}" class="form-control"
-									id="category" placeholder="category"> <span
+									id="category" placeholder="Category"> <span
 									th:if="${#fields.hasErrors('category')}" th:errors="*{category}"
 									class="text-danger"></span>
 							</div>

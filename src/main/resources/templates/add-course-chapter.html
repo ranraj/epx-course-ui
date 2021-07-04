@@ -16,15 +16,81 @@
 </head>
 <body>
 	<div class="container my-5">
-	<h3> Update Course</h3>
+		<h3>Add chapters</h3>
+		<div class="card">
+			<div class="card-body">
+				<div class="col-md-8">
+
+					<div class="row">
+						<div class="form-group col-md-8">
+							<label for="name" class="col-form-label">Name :</label> <label
+								for="name" class="col-form-label" th:text="*{course.name}"></label>
+
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="form-group col-md-8">
+							<label for="name" class="col-form-label">Category :</label> <label
+								for="name" class="col-form-label" th:text="*{course.category}"></label>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div class="container my-2">
+		<div class="card">
+			<div class="card-body">
+				<div th:switch="${chapters}" class="container my-5">
+					<p class="my-5">
+						<label>Chapters</label>
+					</p>
+					<div class="col-md-10">
+						<h2 th:case="null">No course found!</h2>
+						<div th:case="*">
+							<table class="table table-striped table-responsive-md">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>OwnerId</th>
+										<th>Video Link</th>
+										<th>Edit</th>
+										<th>Delete</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="chapter : ${chapters}">
+										<td th:text="${chapter.name}"></td>
+										<td th:text="${chapter.title}"></td>
+										<td th:text="${chapter.videoLink}"></td>
+										<td><a th:href="@{/courses/edit/{id}(id=${chapter.id})}"
+											class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>
+										<td><a
+											th:href="@{/courses/view/{courseId}/chapters/delete/{id}(id=${chapter.id},courseId=${chapter.courseId})}"
+											class="btn btn-primary"><i class="fas fa-times ml-2"></i></a></td>										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container my-5">
+		<h3>Add Chapters</h3>
 		<div class="card">
 			<div class="card-body">
 				<div class="col-md-8">
 					<form action="#"
-						th:action="@{/courses/update/{id}(id=${course.id})}"
-						th:object="${course}" method="post">
+						th:action="@{/courses/view/{id}/chapters/add(id=${course.id})}"
+						th:object="${chapter}" method="post">
 						<div class="row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-md-8">
 								<label for="name" class="col-form-label">Name</label> <input
 									type="text" th:field="*{name}" class="form-control" id="name"
 									placeholder="Name"> <span
@@ -32,23 +98,29 @@
 									class="text-danger"></span>
 							</div>
 							<div class="form-group col-md-8">
-								<label for="ownerId" class="col-form-label">OwnerId</label> <input
-									type="text" th:field="*{ownerId}" class="form-control" id="ownerId"
-									placeholder="OwnerId"> <span
-									th:if="${#fields.hasErrors('ownerId')}" th:errors="*{ownerId}"
+								<label for="title" class="col-form-label">Title</label> <input
+									type="text" th:field="*{title}" class="form-control" id="title"
+									placeholder="title"> <span
+									th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
 									class="text-danger"></span>
 							</div>
 							<div class="form-group col-md-8">
-								<label for="userId" class="col-form-label">Category</label> <input
-									type="text" th:field="*{category}" class="form-control"
-									id="category" placeholder=""> <span
-									th:if="${#fields.hasErrors('category')}" th:errors="category"
+								<label for="title" class="col-form-label">Video Link</label> <input
+									type="text" th:field="*{videoLink}" class="form-control" id="videoLink"
+									placeholder="Youtube Video Link with embed"> <span
+									th:if="${#fields.hasErrors('videoLink')}" th:errors="*{videoLink}"
+									class="text-danger"></span>
+							</div>
+							<div class="form-group col-md-8">
+								<label for="tags" class="col-form-label">Tags</label> <input
+									type="text" th:field="*{tags}" class="form-control"
+									id="videoLink" placeholder="Tags"> <span
+									th:if="${#fields.hasErrors('tags')}" th:errors="tags"
 									class="text-danger"></span>
 							</div>
 
 							<div class="form-group col-md-8">
-								<input type="submit" class="btn btn-primary"
-									value="Update Course">
+								<input type="submit" class="btn btn-primary" value="Add Chapter">
 							</div>
 						</div>
 					</form>

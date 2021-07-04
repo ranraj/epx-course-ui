@@ -10,11 +10,10 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors
 public class ExamQuestion {
-    
-	@Id
-    private String id;
+    	
+    private Integer id;
     private String description;
-    private String courseId;            
+    private String chapterId;            
     private AnswerType answerType;
     private List<AnswerChoise> choices;
     private String answer;

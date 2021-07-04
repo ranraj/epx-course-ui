@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cisco.epx.course.app.model.Course;
+import com.cisco.epx.course.app.model.CourseChapter;
 import com.cisco.epx.course.app.services.CourseService;
 
 @Controller
 @RequestMapping("/courses/")
 public class CourseController {
 
+	private static final String INVALID_COURSE_ID = "Invalid course Id:";
+	private static final String COURSES = "courses";
+	private static final String COURSE = "course";
 	private final CourseService courseService;
 
 	@Autowired
@@ -31,9 +35,8 @@ public class CourseController {
 	}
 
 	@GetMapping("list")
-	public String showUpdateForm(Model model) {
-		System.out.println(courseService.findAll().size());
-		model.addAttribute("courses", courseService.findAll());
+	public String showUpdateForm(Model model) {		
+		model.addAttribute(COURSES, courseService.findAll());
 		return "index";
 	}
 
@@ -50,16 +53,17 @@ public class CourseController {
 	@GetMapping("edit/{id}")
 	public String showUpdateForm(@PathVariable("id") String id, Model model) {
 		Course course = courseService.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
-		model.addAttribute("course", course);
+				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
+		model.addAttribute(COURSE, course);
 		return "update-course";
 	}
 
 	@GetMapping("view/{id}")
 	public String showCourse(@PathVariable("id") String id, Model model) {
 		Course course = courseService.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
-		model.addAttribute("course", course);
+				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
+		model.addAttribute(COURSE, course);
+		model.addAttribute("chapters", courseService.findAllChapters(id));		
 		return "view-course";
 	}
 
@@ -71,24 +75,46 @@ public class CourseController {
 		}
 
 		courseService.save(course);
-		model.addAttribute("courses", courseService.findAll());
+		model.addAttribute(COURSES, courseService.findAll());
 		return "index";
 	}
 
 	@GetMapping("delete/{id}")
 	public String deleteCourse(@PathVariable("id") String id, Model model) {
 		Course course = courseService.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
+				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
 		courseService.delete(course);
-		model.addAttribute("courses", courseService.findAll());
+		model.addAttribute(COURSES, courseService.findAll());
 		return "index";
 	}
 	
-	@GetMapping("course/{id}/chapters/radd")
-	public String showCourseChapters(@PathVariable("id") String id, Model model) {
-		Course course = courseService.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Invalid course Id:" + id));
-		model.addAttribute("course", course);
-		return "update-course";
+	@GetMapping("view/{courseId}/chapters/add")
+	public String showCourseChapters(@PathVariable("courseId") String courseId, Model model) {
+		Course course = courseService.findById(courseId)
+				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
+		model.addAttribute(COURSE, course);
+		
+		model.addAttribute("chapters", courseService.findAllChapters(courseId));
+		model.addAttribute("chapter", new CourseChapter());
+		return "add-course-chapter";
 	}
+	@PostMapping("view/{courseId}/chapters/add")
+	public String addCourse(@Valid CourseChapter courseChapter, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "add-course-chapter";
+		}
+
+		courseService.addChapter(courseChapter);
+		return "redirect:/courses/view/"+courseChapter.getCourseId()+"/chapters/add";
+	}
+	
+	@GetMapping("view/{courseId}/chapters/delete/{chapterId}")
+	public String deleteCourseChapter(@PathVariable("courseId") String courseId,@PathVariable("chapterId") String chapterId, Model model) {
+		courseService.findById(courseId)
+				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
+		 
+		courseService.deleteChapter(courseId,chapterId);		
+		return "redirect:/courses/view/"+courseId+"/chapters/add";
+	}
+	 
 }

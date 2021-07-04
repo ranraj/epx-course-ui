@@ -9,12 +9,15 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors
-public class CourseChapters {	
+public class CourseChapter {	
 	@Id
-    private String id;    
+    private String id;   
+	private String name;
     private String title;
     private String videoLink;
     private List<String> tags;                  
     private List<ExamQuestion> examQuestions;   
     private float version;
+    private boolean deleted;
+    private String courseId;
 }
