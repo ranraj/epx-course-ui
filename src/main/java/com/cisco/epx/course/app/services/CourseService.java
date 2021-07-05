@@ -27,7 +27,7 @@ public class CourseService {
 
 	private static final String COURSE = "/course/";
 	private static final String CHAPTER = "/chapters/";
-
+		
 	public List<Course> findAll() {
 		ResponseEntity<Course[]> response = restTemplate.getForEntity(serviceUrl + "/course", Course[].class);
 		return Arrays.asList(response.getBody());
@@ -50,20 +50,33 @@ public class CourseService {
 	}
 
 	public List<CourseChapter> findAllChapters(String courseId) {
+		String url = String.format("%s/course/%s/chapters",serviceUrl,courseId);		
 		ResponseEntity<CourseChapter[]> response = restTemplate
-				.getForEntity(serviceUrl + COURSE + courseId + "/chapters", CourseChapter[].class);
+				.getForEntity(url, CourseChapter[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public void addChapter(CourseChapter courseChapter) {
-		String endpoint = serviceUrl + "/course/" + courseChapter.getCourseId() + "/chapters";
-		restTemplate.postForEntity(endpoint, courseChapter, CourseChapter.class);
+		String url = String.format("%s/course/%s/chapters",serviceUrl,courseChapter.getCourseId());		
+		restTemplate.postForEntity(url, courseChapter, CourseChapter.class);
 	}
 
 	public void deleteChapter(String courseId, String chapterId) {
 		restTemplate.delete(serviceUrl + COURSE + courseId + CHAPTER +chapterId);
 		
 	}
+	public Optional<CourseChapter> findChapterById(String courseId,String chapterId) {
+		String url = String.format("%s/course/%s/chapters/%s",serviceUrl,courseId,chapterId);
+		ResponseEntity<CourseChapter> responseEntity = restTemplate.getForEntity(url, CourseChapter.class);
+		if (responseEntity.getStatusCode() == HttpStatus.OK && responseEntity.getBody() != null) {
+			return Optional.of(responseEntity.getBody());
+		}
+		return Optional.empty();
+	}
 	
+	public void updateChapterQuestion(CourseChapter courseChapter) {
+		String url = String.format("%s/course/%s/chapters",serviceUrl,courseChapter.getCourseId());		
+		restTemplate.postForEntity(url, courseChapter, CourseChapter.class);
+	}
 	
 }

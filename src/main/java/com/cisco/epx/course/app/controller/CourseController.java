@@ -1,5 +1,9 @@
 package com.cisco.epx.course.app.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cisco.epx.course.app.model.AnswerType;
 import com.cisco.epx.course.app.model.Course;
 import com.cisco.epx.course.app.model.CourseChapter;
+import com.cisco.epx.course.app.model.ExamQuestion;
 import com.cisco.epx.course.app.services.CourseService;
 
 @Controller
@@ -33,11 +39,16 @@ public class CourseController {
 	public String showSignUpForm(Course course) {
 		return "add-course";
 	}
+	@GetMapping
+	public String index(Model model) {
+		
+		return "index";
+	}
 
 	@GetMapping("list")
 	public String showUpdateForm(Model model) {		
 		model.addAttribute(COURSES, courseService.findAll());
-		return "index";
+		return "view-courses";
 	}
 
 	@PostMapping("add")
@@ -64,7 +75,7 @@ public class CourseController {
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
 		model.addAttribute(COURSE, course);
 		model.addAttribute("chapters", courseService.findAllChapters(id));		
-		return "view-course";
+		return "learn-course";
 	}
 
 	@PostMapping("update/{id}")
@@ -116,5 +127,45 @@ public class CourseController {
 		courseService.deleteChapter(courseId,chapterId);		
 		return "redirect:/courses/view/"+courseId+"/chapters/add";
 	}
+	
+
+	@GetMapping("/view/{courseId}/chapters/{chapterId}/questions/add")
+	public String showCourseChapters(@PathVariable("courseId") String courseId,@PathVariable("chapterId") String chapterId, Model model) {
+		Course course = courseService.findById(courseId)
+				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
+		CourseChapter courseChapter = courseService.findChapterById(courseId,chapterId).orElse(new CourseChapter());
+		 		
+		model.addAttribute(COURSE, course);
+				 
+		model.addAttribute("chapter",courseChapter);
+		model.addAttribute("answerTypes",Arrays.asList(AnswerType.values()));
+		model.addAttribute("question", new ExamQuestion());
+		return "add-chapter-questions";
+	}
+	@PostMapping("view/{courseId}/chapters/{chapterId}/questions/add")
+	public String addQuestionsToChapter(@PathVariable("courseId") String courseId,@PathVariable("chapterId") String chapterId,@Valid ExamQuestion examQuestion, BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return "add-chapter-questions";
+		}
+		CourseChapter courseChapter = courseService.findChapterById(courseId,chapterId).orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
+		
+		if(courseChapter.getExamQuestions() == null) {
+			courseChapter.setExamQuestions(new ArrayList<ExamQuestion>());
+		}
+		
+		courseChapter.getExamQuestions().add(examQuestion);
+		courseService.updateChapterQuestion(courseChapter);
+		return "redirect:/courses/view/"+courseId+"/chapters/"+chapterId+"/questions/add";
+	}
+//	
+//	@GetMapping("view/{courseId}/chapters/delete/{chapterId}")
+//	public String deleteCourseChapter(@PathVariable("courseId") String courseId,@PathVariable("chapterId") String chapterId, Model model) {
+//		courseService.findById(courseId)
+//				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
+//		 
+//		courseService.deleteChapter(courseId,chapterId);		
+//		return "redirect:/courses/view/"+courseId+"/chapters/add";
+//	}
+	
 	 
 }
