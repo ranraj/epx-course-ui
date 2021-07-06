@@ -7,9 +7,9 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors
-public class ExamQuestion {
+public class ChapterQuestion {
     	
-    private Integer id;
+    private String id;
     private String description;
     private String chapterId;            
     private AnswerType answerType;
@@ -19,4 +19,6 @@ public class ExamQuestion {
     //private Date created;
     //private Date updated;
     private String updatedBy;  
+    private float version;
+    
 }

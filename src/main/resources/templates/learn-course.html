@@ -2,8 +2,7 @@
 <html>
 <head>
 <!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
-<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Task
-	List</title>
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Learn Course</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -82,8 +81,10 @@
 							</div> -->
 
 								<div class="form-group col-md-6">
+								<a th:href="@{/courses/learn/{courseId}/chapters/{chapterId}/exam(courseId=${chapter.courseId},chapterId=${chapter.id})}">
 									<input
-										type="button" class="btn btn-primary" value="Try Test" onclick="openPopup('http://www.google.com')">
+										type="button" class="btn btn-primary" value="Try Test">
+										</a>
 								</div>
 
 								<div class="form-group col-md-8"></div>

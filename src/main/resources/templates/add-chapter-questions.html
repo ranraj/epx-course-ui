@@ -45,7 +45,7 @@
 				</div>
 			</div>
 			<div class="container my-5">
-				<h3>Add Chapters</h3>
+				<h3>Add Question</h3>
 				<div class="card">
 					<div class="card-body">
 						<div class="col-md-8">
@@ -53,6 +53,9 @@
 								th:action="@{/courses/view/{courseId}/chapters/{chapterId}/questions/add(courseId=${course.id},chapterId=${chapter.id})}"
 								th:object="${question}" method="post">
 								<div class="row">
+								<input type="hidden" th:field="*{id}"
+											class="form-control" id="id"
+											>
 									<div class="form-group col-md-8">
 										<label for="description" class="col-form-label">Question</label>
 										<input type="text" th:field="*{description}"

@@ -24,11 +24,14 @@ public class CourseService {
 
 	@Value("${epx.service.url}")
 	private String serviceUrl;
-
+	
+	
+	
 	private static final String COURSE = "/course/";
 	private static final String CHAPTER = "/chapters/";
 		
 	public List<Course> findAll() {
+		  
 		ResponseEntity<Course[]> response = restTemplate.getForEntity(serviceUrl + "/course", Course[].class);
 		return Arrays.asList(response.getBody());
 	}

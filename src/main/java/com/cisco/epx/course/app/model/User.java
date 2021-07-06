@@ -13,5 +13,7 @@ public class User {
 	private String email;
 	private String password;	
 	private String username;
-	private List<String> favorites;
+	private List<String> favorites;	
+    private Provider provider;
+    private List<EnrolledCourse> enrolledCourses;
 }

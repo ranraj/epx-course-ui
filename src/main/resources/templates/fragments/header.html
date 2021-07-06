@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://springframework.org/schema/data/jaxb"
+        xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 
 </head>
@@ -18,9 +19,20 @@
 				<li th:classappend="${module == 'home' ? 'active' : ''}"
 					class="nav-item"><a class="nav-link" th:href="@{/}">Home </a>
 				<li th:classappend="${module == 'courses' ? 'active' : ''}"
-					class="nav-item active"><a class="nav-link" th:href="@{/courses/list}">Courses
-				</a></li>
-
+					class="nav-item active"><a class="nav-link"
+					th:href="@{/courses/list}">Courses </a></li>
+					
+				<li sec:authorize="!isAuthenticated()" th:classappend="${module == 'signin' ? 'active' : ''}"
+					class="nav-item active"><a class="nav-link"
+					th:href="@{/login}">Sign in &#128477;</a></li>	
+				<!-- <li sec:authorize="!isAuthenticated()" th:classappend="${module == 'register' ? 'active' : ''}"
+					class="nav-item active"><a class="nav-link"
+					th:href="@{/register}">Register  &raquo;</a></li> -->			 
+				<li sec:authorize="isAuthenticated()" th:classappend="${module == 'Signout' ? 'active' : ''}"
+					class="nav-item active"><a class="nav-link"
+					th:href="@{/logout}">Sign Out (<span sec:authentication="name"></span>)</a></li>		
+					
+								
 			</ul>
 		</div>
 	</nav>
