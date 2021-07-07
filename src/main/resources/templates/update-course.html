@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<title>Update User</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-	crossorigin="anonymous">
-</head>
-<body>
-	<div class="container my-5">
-	<h3> Update Course</h3>
-		<div class="card">
+<html>
+  <head>
+    <!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Update Course</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+		integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+  </head>
+  <body>
+    <!--/* Standard layout can be mixed with Layout Dialect */-->
+    <div th:replace="fragments/header :: header">
+      
+    </div>
+    <div class="container">
+      <div layout:fragment="content">
+       <div class="card">
 			<div class="card-body">
 				<div class="col-md-8">
 					<form action="#"
@@ -32,17 +30,17 @@
 									class="text-danger"></span>
 							</div>
 							<div class="form-group col-md-8">
-								<label for="video" class="col-form-label">Email</label> <input
-									type="text" th:field="*{video}" class="form-control" id="video"
-									placeholder="Video"> <span
-									th:if="${#fields.hasErrors('video')}" th:errors="*{video}"
+								<label for="ownerId" class="col-form-label">OwnerId</label> <input
+									type="text" th:field="*{ownerId}" class="form-control" id="ownerId"
+									placeholder="OwnerId"> <span
+									th:if="${#fields.hasErrors('ownerId')}" th:errors="*{ownerId}"
 									class="text-danger"></span>
 							</div>
 							<div class="form-group col-md-8">
-								<label for="userId" class="col-form-label">User Id</label> <input
-									type="text" th:field="*{userId}" class="form-control"
-									id="userId" placeholder=""> <span
-									th:if="${#fields.hasErrors('userId')}" th:errors="userId"
+								<label for="userId" class="col-form-label">Category</label> <input
+									type="text" th:field="*{category}" class="form-control"
+									id="category" placeholder=""> <span
+									th:if="${#fields.hasErrors('category')}" th:errors="category"
 									class="text-danger"></span>
 							</div>
 
@@ -55,6 +53,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</body>
+      </div>
+      <div th:replace="fragments/footer :: footer">&copy; 2014 The Static Templates</div>
+    </div>
+  </body>
 </html>
