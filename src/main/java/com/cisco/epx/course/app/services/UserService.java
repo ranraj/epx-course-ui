@@ -42,7 +42,7 @@ public class UserService {
 		restTemplate.postForEntity(url, user, User.class);		
 	}
 
-	public void submitExam(String userId, ExamChapter examChapter) {
+	public ExamChapter submitExam(String userId, ExamChapter examChapter) {
 		findByUserId(userId).orElseThrow(()-> new IllegalArgumentException("Invalid User"));
 		String url = String.format("%s/exams/users/%s",serviceUrl,userId);
 		
@@ -50,7 +50,19 @@ public class UserService {
 		if(response.getStatusCode() != HttpStatus.OK) {
 			throw new IllegalArgumentException("Unable to submit exam");
 		}
+		return response.getBody();
 	}
+	
+//	public void findResulst(String userId, String courseId, String chapterId) {
+//		findByUserId(userId).orElseThrow(()-> new IllegalArgumentException("Invalid User"));
+//		String url = String.format("%s/exams/users/%s",serviceUrl,userId);
+//		
+//		ResponseEntity<ExamChapter> response = restTemplate.postForEntity(url, examChapter, ExamChapter.class);
+//		if(response.getStatusCode() != HttpStatus.OK) {
+//			throw new IllegalArgumentException("Unable to submit exam");
+//		}
+//	}
+	
 	public Optional<User> findByUserId(String userId){
 		String url = String.format("%s/user/%s",serviceUrl,userId);
 		

@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors
 public class ExamChapterQuestion {
-	private int score;
+	private double score;
 	private String questionId;
 	private String answer;
 	private List<String> answers;
@@ -22,7 +22,7 @@ public class ExamChapterQuestion {
 		examChapterQuestion.setQuestionId(chapterQuestion.getId());
 		examChapterQuestion.setVersion(chapterQuestion.getVersion());
 		examChapterQuestion.setChapterQuestion(chapterQuestion);
-		examChapterQuestion.setChapterId(chapterQuestion.getChapterId());
+		examChapterQuestion.setChapterId(chapterQuestion.getChapterId());		
 		return examChapterQuestion;
 	}
 }

@@ -44,7 +44,8 @@
 							<div class="row">
 								<div class="form-group col-md-8">
 									<label for="name" class="col-form-label">Chapter Name :
-									</label> <label for="name" class="col-form-label" th:text="*{chapter.name}"></label>
+									</label> <label for="name" class="col-form-label"
+										th:text="*{chapter.name}"></label>
 								</div>
 							</div>
 
@@ -83,34 +84,43 @@
 			<form action="#"
 				th:action="@{/courses/learn/{courseId}/chapters/{chapterId}/exam(courseId=${course.id},chapterId=${chapter.id})}"
 				th:object="${answerSheet}" method="post">
-				<span th:text="*{questions.size()}"></div>
-				<div class="container my-5"
-					th:each="question,i : ${answerSheet.questions}">
-					<div class="form-group col-md-8">
-										<label for="name" class="col-form-label"
-											th:text="|Question-${i.index} : |"></label> <label
-											for="name" class="col-form-label"
-											th:text="${question.chapterQuestion.description}"></label>
-									</div>
-					<div class="form-group col-md-8">
-										<label for="title" class="col-form-label">Answer </label> <input
-											type="text" class="form-control" id="answer"
-											placeholderz="Answer" th:field="*{answerSheet.questions[__${i.index}__].answer}"> <span class="text"></span>
-									</div>					 					 
-									<input type="hidden" class="form-control" id="answer"
-											placeholderz="Answer" th:field="*{answerSheet.questions[__${i.index}__].chapterId}">
-									<input type="hidden" class="form-control" id="answer"
-											placeholderz="Answer" th:field="*{answerSheet.questions[__${i.index}__].chapterId}">
-									<input type="hidden" class="form-control" id="answer"
-									placeholderz="Answer" th:field="*{answerSheet.questions[__${i.index}__].questionId}">
-													
-					 
-				</div>
-				<input type="submit" value="Submit">
-			</form>
+				Number of Questions : <span th:text="*{questions.size()}">
 		</div>
-		<div th:replace="fragments/footer :: footer">&copy; 2014 The
-			Static Templates</div>
+		<div class="container my-5"
+			th:each="question,i : ${answerSheet.questions}">
+
+			<div class="form-group col-md-8">
+				<label for="name" class="col-form-label"
+					th:text="|Question-${i.index} : |"></label>
+			</div>
+			<div class="form-group col-md-8">
+				<b><label for="name" class="col-form-label"
+					th:text="${question.chapterQuestion.description}"></label></b>
+			</div>
+			<div class="form-group col-md-8">
+				<label for="title" class="col-form-label">Answer </label>
+				<textarea type="text" class="form-control" id="answer"
+					placeholderz="Answer"
+					th:field="*{answerSheet.questions[__${i.index}__].answer}"></textarea>
+				<span class="text"></span>
+			</div>
+			<input type="hidden" class="form-control" id="answer"
+				placeholderz="Answer"
+				th:field="*{answerSheet.questions[__${i.index}__].chapterId}">
+			<input type="hidden" class="form-control" id="answer"
+				placeholderz="Answer"
+				th:field="*{answerSheet.questions[__${i.index}__].chapterId}">
+			<input type="hidden" class="form-control" id="answer"
+				placeholderz="Answer"
+				th:field="*{answerSheet.questions[__${i.index}__].questionId}">
+
+
+		</div>
+		<input type="submit" value="Submit">
+		</form>
+	</div>
+	<div th:replace="fragments/footer :: footer">&copy; 2014 The
+		Static Templates</div>
 	</div>
 </body>
 </html>

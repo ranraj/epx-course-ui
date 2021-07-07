@@ -204,23 +204,42 @@ public class CourseController {
 	public String saveExamAnswer(Principal principal, @PathVariable("courseId") String courseId,
 			@PathVariable("chapterId") String chapterId, ExamChapter examChapter, Model model, HttpServletRequest request) {
 
-		String userId = (String)request.getSession().getAttribute(AppConstant.USER_ID);
-		userService.submitExam(userId,examChapter);
-
-		return "index";
-	}
-
-	@GetMapping("/learn/{courseId}/chapters/{chapterId}/exam/result")
-	public String showExamResultView(Principal principal, @PathVariable("courseId") String courseId,
-			@PathVariable("chapterId") String chapterId, Model model) {
+		String userId = (String)request.getSession().getAttribute(AppConstant.USER_ID);		
+		ExamChapter examResult = userService.submitExam(userId,examChapter);
+		
+		//Response page
 		Course course = courseService.findById(courseId)
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
 		CourseChapter courseChapter = courseService.findChapterById(courseId, chapterId).orElse(new CourseChapter());
-
+		
+		double score = 0.0D;
+		int total = 0;
+		if(examResult!=null) {
+			score = examResult.getQuestions().stream().map(a -> a.getScore()).reduce(0.0D, (a,x) -> a+x);
+			total = examResult.getQuestions().size();
+		}
+		model.addAttribute("score", score);
+		model.addAttribute("totalMarks", total);
+		
 		model.addAttribute(COURSE, course);
 
 		model.addAttribute("chapter", courseChapter);
-		
-		return "learn-chapter-questions";
+		return "learn-chapter-questions-result";
 	}
+	
+	// TODO : List all result
+//	@GetMapping("/learn/{courseId}/chapters/{chapterId}/exam/result")
+//	public String showExamResultView(Principal principal, @PathVariable("courseId") String courseId,
+//			@PathVariable("chapterId") String chapterId, Model model) {
+//		Course course = courseService.findById(courseId)
+//				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
+//		CourseChapter courseChapter = courseService.findChapterById(courseId, chapterId).orElse(new CourseChapter());
+//		
+//		
+//		model.addAttribute(COURSE, course);
+//
+//		model.addAttribute("chapter", courseChapter);
+//		
+//		return "learn-chapter-questions-result";
+//	}
 }
