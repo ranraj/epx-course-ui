@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cisco.epx.course.app.model.User;
 import com.cisco.epx.course.app.services.UserService;
+import com.cisco.epx.model.User;
 
 @Controller
 @RequestMapping("/")
