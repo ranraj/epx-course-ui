@@ -1,10 +1,7 @@
 FROM openjdk:11-jdk
-ADD . /epx
-WORKDIR /epx
-
 VOLUME /tmp
 EXPOSE 8080
-ARG JAR_FILE=/epx/target/epx-course-ui-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=target/epx-course-ui-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} app.jar
 
 RUN sh -c 'touch /app.jar'
