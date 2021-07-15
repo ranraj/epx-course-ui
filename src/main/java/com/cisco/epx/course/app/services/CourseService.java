@@ -13,8 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.cisco.epx.model.Course;
-import com.cisco.epx.model.CourseChapter;
+import com.cisco.epx.course.app.model.Course;
+import com.cisco.epx.course.app.model.CourseChapter;
 
 @Service
 public class CourseService {

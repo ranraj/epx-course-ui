@@ -1,0 +1,24 @@
+language: java
+env:
+  global:
+  - COMMIT=${TRAVIS_COMMIT::7}
+  - secure: epqjH/P89KxditscnD98/YVSo35F4bZvWOugJHNHrP2jIsFwiwOjPyrxOcenwmRUcMxiMo//ZTzlHJssjN/4v1OOv8sheg3rcOgLMA6JxrdGWTBPyjj1GHr64rsSCqt9v3WPYmtBbDoFgR3p13OUCmuKiz2P2VfJ5uwi+WRtdeOeNGCsszHZZ98SVWSospxDAX2E0M7VydYshZ4AjBoadKbIwRovAdDRPukPdAsk41QwEVBSAV6NyojcA8Y8dkXbLj8lkYiNDzZ0RK5gx1G4t5/4oRo+0zW5pM55Hmxa6CGDGnX5jX2ll/U3jGesoanrpQE5Da4vtM8iU9Ku7KEX1oI1btxDFg/wIBZ8tkrowzoULdTkxxgzszbSTjxaIAMlFSqSFnFcVdAFMugyOLMTDmKHu13cNLPNJjx5qn60LCIBsls+JNzkXMgaWy6w8zLW1rD2MFZRAKEK4ho7ENPNtTEzjF8atl6IHEDKTmQvlbv2K62Ur1wJttYI+2P1A2v5JYgdzFIQESaOeLhS5TZozWrQDbDaGabExs0Dr4HcGlSrYEp55+INL1vTSnQAayXwePod0yDVmfMten/L3PX0awLms7TPXnLzw6zXMMgl5ObqKmOODN/fU+qMIrhmuvwq5jEczhDI3gDaxeXP/JL3UdQqYPER5O85v/EaV8CSyWM=
+  - secure: Bc7jWVqIHgWKbsJrX5JngYOlLzV0tez8mgTiUpX3b1xg9gmFr7e3hfsAf4H+lS8y/RsnfrZ+cMAXkuO2w5O6tcSZ5NqDU2ljlbjNqD/0j2+1RIpx9X3WmdXxkVMB30WChHfTiCizKOdx2MLVMR4V6ehjWrQCF1yWcWJrCul7q4S5OUWMFH+d0/EWT5C/4De/r1awyt8408ENxnOI65VkEb3S+rDerDntbcGURIZOZrMOmoOVg7wsOtt9B6I2Ywu3t/sCjqLyFPRixOD3Fxbj6PgpLVeratjQhT4hoelToO13pxojl4zgbSQSXgiHrh2CKKvaz/NWbUNu8ICyr/eh8UuJNSI36QQwRtpLljNG4j83YzcgmSg5pHYgf8KlqNwwGfm7LqpT6OTtXzjxw0LYvURLrteKWXZakGrzDBfn/5YvrigHL5rkDuLCbRkZffaq1TCjZigc4LgYV9r4TQo7QYHDXC3OhQ57AbKHSliYH5uDy9pYSS8X/fehBA/7h/85zt9aSiPe0L03b8gDEWdHnYdIWUvS3Y954uierlU/QuIVtY8+34Z+QFg9w/Zc2W++Hs31Pi/TztUnxNvSSWURZq9F2NvezEvaFbQs8nypXnpEbC1ZDd9s4u++GPK7CfrU9t/AZPdzZgT1j9NEXTMl6XjQ7JHwZxCaKDFM6kI4eA4=
+  - secure: Kedl89Qz9mzJQoLZEmuuyku//2gakfMY9hL0hW4VX+f0nQwN0hLu3SaWHk3CtwsVPdDNEv8JlVC5x22ztymELnAURCIRvBHzQgT1sDy2iDmhOnwJOicBOTp+xwOiW1zqyTlWcvkCowESR9/yzU9uS/OChPhRw8I0J8QYskfUE/a0SWvpmS/U+WunbKPsgbGzxTzorFfhEYivZqryRok7f8UEzQbDQ46ntmr1wGW15Y0fvOLofsGwwbJGXe6N5iH8G1YdzXytRBbjpNFGYW+MWCgjp4dj6d2Pq+tpwOrk/f8qprFSd4OjFABNHUK65G2+85uw1a0BnogLbMW2VYSxPcwUSYfZ2f8S/Cl/8E3oTSEpnb/UOraramtoRKqjEy4XK/HEswiNAanVOPUPNkB1og6pmyQF0S1L/l/3rrAxQhK/uQliSWWV7pyH0VV4hELQBGAe2U5fNPKUAcYDaqOtPDz8I82FdWq6vAMCMQ4tzOFfMR+zTfj7mzadEFxK+LxVok4IvpKAR/Af4fiCx5DgMOcFASYYwZyoBzt7UZu20aMEOgJ6lzQuyqlDwaf7F1wS070FONoTCTszihBm3pHctmHs9J9fIw7z20wYGF+9dgFHjyH9RoSm19o7ZUQhI3kdcdWC+/tiMHzhtEWwg9rwbTRtFP0jVuxUGq2tAT4Fvi4=
+before_install:
+- cp .travis.settings.xml $HOME/.m2/settings.xml
+- chmod +x mvnw
+deploy:
+  provider: heroku
+  api_key: "$HEROKU_API_KEY"
+  app: epx-ui
+after_success:
+- docker login -u $DOCKER_USER -p $DOCKER_PASS
+- export TAG='if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH&amp;amp;amp;amp;amp;amp;lt;span
+  data-mce-type="bookmark" style="display:inline-block; width:0px; overflow:hidden;
+  line-height:0;" class="mce_SELRES_start"&amp;amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;amp;amp;lt;/span&amp;amp;amp;amp;amp;amp;gt;;
+  fi'
+- export IMAGE_NAME=epx/epx-ui
+- docker build -t $IMAGE_NAME:$COMMIT .
+- docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
+- docker push $IMAGE_NAME

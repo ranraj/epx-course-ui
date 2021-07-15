@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cisco.epx.course.app.config.AppConstant;
+import com.cisco.epx.course.app.model.AnswerType;
+import com.cisco.epx.course.app.model.ChapterQuestion;
+import com.cisco.epx.course.app.model.Course;
+import com.cisco.epx.course.app.model.CourseChapter;
+import com.cisco.epx.course.app.model.ExamChapter;
 import com.cisco.epx.course.app.services.CourseService;
 import com.cisco.epx.course.app.services.UserService;
-import com.cisco.epx.model.AnswerType;
-import com.cisco.epx.model.ChapterQuestion;
-import com.cisco.epx.model.Course;
-import com.cisco.epx.model.CourseChapter;
-import com.cisco.epx.model.ExamChapter;
 
 @Controller
 @RequestMapping("/courses/")
