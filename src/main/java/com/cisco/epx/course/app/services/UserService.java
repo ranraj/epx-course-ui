@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.cisco.epx.model.ExamChapter;
-import com.cisco.epx.model.User;
+import com.cisco.epx.course.app.model.ExamChapter;
+import com.cisco.epx.course.app.model.User;
 
 @Service
 public class UserService {

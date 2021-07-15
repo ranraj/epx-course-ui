@@ -17,10 +17,10 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.cisco.epx.course.app.model.CustomOAuth2User;
+import com.cisco.epx.course.app.model.Provider;
+import com.cisco.epx.course.app.model.User;
 import com.cisco.epx.course.app.services.CustomOAuth2UserService;
 import com.cisco.epx.course.app.services.UserService;
-import com.cisco.epx.model.Provider;
-import com.cisco.epx.model.User;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
