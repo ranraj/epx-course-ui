@@ -18,7 +18,7 @@ after_success:
   data-mce-type="bookmark" style="display:inline-block; width:0px; overflow:hidden;
   line-height:0;" class="mce_SELRES_start"&amp;amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;amp;amp;lt;/span&amp;amp;amp;amp;amp;amp;gt;;
   fi'
-- export IMAGE_NAME=epx/epx-ui
+- export IMAGE_NAME=ranjithrajd/epx-ui
 - docker build -t $IMAGE_NAME:$COMMIT .
 - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:$TAG
 - docker push $IMAGE_NAME
