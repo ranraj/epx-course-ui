@@ -1,7 +1,7 @@
-FROM openjdk:11-jdk
+FROM openjdk:8-jdk
 VOLUME /tmp
 EXPOSE 8080
-ARG JAR_FILE=target/epx-course-ui-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=/home/travis/.m2/repository/com/cisco/epx/epx-course-ui/0.0.1-SNAPSHOT/epx-course-ui-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} app.jar
 
 RUN sh -c 'touch /app.jar'
