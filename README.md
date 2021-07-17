@@ -20,5 +20,5 @@ Note :  Keep seperate OAuth2 key details for Production and Development
 
 Actuator Endpoints
 ```
-https://localhost:8080/actuator/health
+http://localhost:9090/
 ```
