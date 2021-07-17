@@ -17,3 +17,8 @@ docker run --env-file ./env.list -p 9090:9090 epx-ui:latest
  - Docker Hub
  - Travis CI
 Note :  Keep seperate OAuth2 key details for Production and Development 
+
+Actuator Endpoints
+```
+https://localhost:8080/actuator/health
+```
