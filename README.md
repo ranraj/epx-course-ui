@@ -1,6 +1,17 @@
 # EPX UI [![Build Status](https://travis-ci.com/ranraj/epx-course-ui.svg?branch=main)](https://travis-ci.com/ranraj/epx-course-ui)
 epx ui
 
+Building application
+
+```
+mvn install 
+Run Application
+```
+Maven spring boot application
+```
+mvn spring-boot:run
+``
+
 Docker build and run
 ```
 docker build . -t epx-ui
