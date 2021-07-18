@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.controller;
+package com.ran.epx.course.app.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -24,15 +24,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cisco.epx.course.app.config.AppConstant;
-import com.cisco.epx.course.app.dto.LikeCourseDto;
-import com.cisco.epx.course.app.model.AnswerType;
-import com.cisco.epx.course.app.model.ChapterQuestion;
-import com.cisco.epx.course.app.model.Course;
-import com.cisco.epx.course.app.model.CourseChapter;
-import com.cisco.epx.course.app.model.ExamChapter;
-import com.cisco.epx.course.app.services.CourseService;
-import com.cisco.epx.course.app.services.UserService;
+import com.ran.epx.course.app.config.AppConstant;
+import com.ran.epx.course.app.dto.LikeCourseDto;
+import com.ran.epx.course.app.model.AnswerType;
+import com.ran.epx.course.app.model.ChapterQuestion;
+import com.ran.epx.course.app.model.Course;
+import com.ran.epx.course.app.model.CourseChapter;
+import com.ran.epx.course.app.model.ExamChapter;
+import com.ran.epx.course.app.services.CourseService;
+import com.ran.epx.course.app.services.UserService;
 
 @Controller
 @RequestMapping("/courses/")
@@ -105,7 +105,7 @@ public class CourseController {
 	 * @return
 	 */
 	@GetMapping("view/{id}")
-	public String showCourse(Principal principal, Authentication authentication, @PathVariable("id") String id,
+	public String learnCourse(Principal principal, Authentication authentication, @PathVariable("id") String id,
 			Model model, HttpServletRequest request, HttpServletResponse response) {
 		Course course = courseService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));

@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.controller;
+package com.ran.epx.course.app.controller;
 
 public enum PageTemplates {
 	INDEX("index"),

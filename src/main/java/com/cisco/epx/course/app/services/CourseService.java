@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.services;
+package com.ran.epx.course.app.services;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.cisco.epx.course.app.dto.LikeCourseDto;
-import com.cisco.epx.course.app.model.Course;
-import com.cisco.epx.course.app.model.CourseChapter;
+import com.ran.epx.course.app.dto.LikeCourseDto;
+import com.ran.epx.course.app.model.Course;
+import com.ran.epx.course.app.model.CourseChapter;
 
 @Service
 public class CourseService {

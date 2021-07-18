@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.config;
+package com.ran.epx.course.app.config;
 
 import java.io.IOException;
 
@@ -16,11 +16,11 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.cisco.epx.course.app.model.CustomOAuth2User;
-import com.cisco.epx.course.app.model.Provider;
-import com.cisco.epx.course.app.model.User;
-import com.cisco.epx.course.app.services.CustomOAuth2UserService;
-import com.cisco.epx.course.app.services.UserService;
+import com.ran.epx.course.app.model.CustomOAuth2User;
+import com.ran.epx.course.app.model.Provider;
+import com.ran.epx.course.app.model.User;
+import com.ran.epx.course.app.services.CustomOAuth2UserService;
+import com.ran.epx.course.app.services.UserService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

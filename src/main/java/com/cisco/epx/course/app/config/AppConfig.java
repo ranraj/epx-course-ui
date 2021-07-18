@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.config;
+package com.ran.epx.course.app.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.Health;

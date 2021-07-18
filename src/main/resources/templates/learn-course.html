@@ -31,7 +31,7 @@
 	<div class="container">
 		<div layout:fragment="content">
 			<div class="container my-5">
-				<!-- <h3> Add Course</h3> -->
+
 				<div class="card">
 					<div class="card-body">
 						<div class="col-md-8">
@@ -53,25 +53,23 @@
 
 							<div class="row">
 								<div class="form-group col-md-8">
-									<div
-										th:if="${liked}">
+									<div th:if="${liked}">
 										<form action="#" th:action="@{/courses/unlike}"
-										th:object="${likeCourse}" method="post">
-										<input type="hidden" th:field="*{userId}" /> <input
-											type="hidden" th:field="*{courseId}" />
-										<button type="submit">Unlike</button>
-									</form>
+											th:object="${likeCourse}" method="post">
+											<input type="hidden" th:field="*{userId}" /> <input
+												type="hidden" th:field="*{courseId}" />
+											<button type="submit">Unlike</button>
+										</form>
 									</div>
-									<div
-										th:if="${!liked}">
+									<div th:if="${!liked}">
 										<form action="#" th:action="@{/courses/like}"
-										th:object="${likeCourse}" method="post">
-										<input type="hidden" th:field="*{userId}" /> <input
-											type="hidden" th:field="*{courseId}" />
-										<button type="submit">Like</button>
-									</form>
+											th:object="${likeCourse}" method="post">
+											<input type="hidden" th:field="*{userId}" /> <input
+												type="hidden" th:field="*{courseId}" />
+											<button type="submit">Like</button>
+										</form>
 									</div>
-									
+
 									<label for="likes" class="col-form-label"
 										th:text="*{course.likes}"></label>
 								</div>
@@ -82,39 +80,32 @@
 				<div class="card">
 					<div class="card-body" th:each="chapter : ${chapters}">
 
-						<div class="col-md-10">
+						<div class="card" class="col-md-10">
 
 
 							<div class="row">
-
-								<!-- <div class="form-group col-md-8">
-							<label for="video" class="col-form-label">Video link</label> <label
-								type="text" th:field="*{chapter.videoLink}" class="form-control"
-								id="video" placeholder="Video link"></label> <span
-								th:if="${#fields.hasErrors('chapter.videoLink')}"
-								th:errors="*{chapter.videoLink}" class="text-danger"></span>
-						</div> -->
-								<iframe class="form-group col-md-12" height="400"
-									th:src="*{chapter.videoLink}" title="YouTube video player"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-									allowfullscreen></iframe>
 								<div class="form-group col-md-8">
 									<label for="name" class="col-form-label">Chapter : </label> <span
 										th:text="*{chapter.name}"></span>
 								</div>
-								<!-- <div class="form-group col-md-8">
-								<label for="userId" class="col-form-label">User ID</label> <input type="text"
-									th:field="*{userId}" class="form-control" id="userId" placeholder="UserId"> <span
-									th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"
-									class="text-danger"></span>
-							</div> -->
+								<div class="form-group col-md-8">
+									<iframe th:if="${chapter.videoLink != ''}"
+										class="form-group col-md-12" height="400"
+										th:src="*{chapter.videoLink}" title="YouTube video player"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+										allowfullscreen></iframe>
+									<span th:if="${chapter.videoLink == ''}"> Learning
+										material not found </span>
+								</div>
 
 								<div class="form-group col-md-6">
-									<a
+									<a th:if="${chapter.examQuestions != null}"
 										th:href="@{/courses/learn/{courseId}/chapters/{chapterId}/exam(courseId=${chapter.courseId},chapterId=${chapter.id})}">
 										<input type="button" class="btn btn-primary" value="Try Test">
-									</a>
+									</a> <span th:if="${chapter.examQuestions == null}"> Exam
+										not found </span>
 								</div>
+
 
 								<div class="form-group col-md-8"></div>
 
@@ -125,7 +116,7 @@
 				</div>
 			</div>
 		</div>
-		<div th:replace="fragments/footer :: footer">&copy; 2014 The
+		<div th:replace="fragments/footer :: footer">&copy; 2021 The
 			Static Templates</div>
 	</div>
 </body>

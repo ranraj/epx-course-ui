@@ -7,7 +7,7 @@
 		<version>2.5.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cisco.epx</groupId>
+	<groupId>com.ran.epx</groupId>
 	<artifactId>epx-course-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>epx-course-ui</name>

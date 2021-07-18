@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.dto;
+package com.ran.epx.course.app.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

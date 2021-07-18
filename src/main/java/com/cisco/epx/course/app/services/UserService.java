@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.services;
+package com.ran.epx.course.app.services;
 
 import java.util.Optional;
 
@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.cisco.epx.course.app.model.ExamChapter;
-import com.cisco.epx.course.app.model.User;
+import com.ran.epx.course.app.model.ExamChapter;
+import com.ran.epx.course.app.model.User;
 
 @Service
 public class UserService {

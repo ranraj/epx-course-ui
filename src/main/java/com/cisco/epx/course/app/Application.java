@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app;
+package com.ran.epx.course.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.autoconfigure.health.HealthContributorAutoConfiguration;

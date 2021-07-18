@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.controller;
+package com.ran.epx.course.app.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cisco.epx.course.app.model.User;
-import com.cisco.epx.course.app.services.UserService;
+import com.ran.epx.course.app.model.User;
+import com.ran.epx.course.app.services.UserService;
 
 @Controller
 @RequestMapping("/")

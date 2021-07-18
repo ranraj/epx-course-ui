@@ -20,7 +20,6 @@
 
 		<div layout:fragment="content">
 			<div class="container my-5">
-				<!-- <label>Chapters</label> -->
 				<div class="card">
 					<div class="card-body">
 						<div class="col-md-8">
@@ -53,34 +52,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="container my-5">
-				<h3>Add Chapters</h3>
-				<div class="card">
-					<div class="card-body">
-						<div class="col-md-8">
-							<form action="#"
-								th:action="@{/courses/view/{id}/chapters/add(id=${course.id})}"
-								th:object="${chapter}" method="post">
-								<div class="row">
-									<div class="form-group col-md-8">
-										<label for="name" class="col-form-label">Chapter Name
-											: </label> <label for="name" class="col-form-label" th:text="*{name}"></label>
-									</div>
-									<div class="form-group col-md-8">
-										<label for="title" class="col-form-label">Title : </label> <label
-											for="name" class="col-form-label" th:text="*{title}"></label>
-									</div>
 
-									<div class="form-group col-md-8">
-										<label for="tags" class="col-form-label">Tags : </label> <label
-											for="name" class="col-form-label" th:text="*{tags}"></label>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div> -->
 			<form action="#"
 				th:action="@{/courses/learn/{courseId}/chapters/{chapterId}/exam(courseId=${course.id},chapterId=${chapter.id})}"
 				th:object="${answerSheet}" method="post">
@@ -94,7 +66,7 @@
 					th:text="|Question-${i.index} : |"></label>
 			</div>
 			<div class="form-group col-md-8">
-				<b><label for="name" class="col-form-label"
+				<label for="name" class="col-form-label"
 					th:text="${question.chapterQuestion.description}"></label></b>
 			</div>
 			<div class="form-group col-md-8">
@@ -106,10 +78,7 @@
 			</div>
 			<input type="hidden" class="form-control" id="answer"
 				placeholderz="Answer"
-				th:field="*{answerSheet.questions[__${i.index}__].chapterId}">
-			<input type="hidden" class="form-control" id="answer"
-				placeholderz="Answer"
-				th:field="*{answerSheet.questions[__${i.index}__].chapterId}">
+				th:field="*{answerSheet.questions[__${i.index}__].chapterId}">			
 			<input type="hidden" class="form-control" id="answer"
 				placeholderz="Answer"
 				th:field="*{answerSheet.questions[__${i.index}__].questionId}">
@@ -119,7 +88,7 @@
 		<input type="submit" value="Submit">
 		</form>
 	</div>
-	<div th:replace="fragments/footer :: footer">&copy; 2014 The
+	<div th:replace="fragments/footer :: footer">&copy; 2021 The
 		Static Templates</div>
 	</div>
 </body>

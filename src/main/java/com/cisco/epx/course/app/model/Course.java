@@ -1,4 +1,4 @@
-package com.cisco.epx.course.app.model;
+package com.ran.epx.course.app.model;
 
 import java.util.List;
 
