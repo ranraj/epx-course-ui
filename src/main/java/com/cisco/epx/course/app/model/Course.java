@@ -20,5 +20,12 @@ public class Course {
     private String description;    
     private List<String> likedBy;  
     private float version;
-    private boolean deleted;
+    private boolean deleted;     
+    
+    public long getLikes() {
+    	if(likedBy == null) {
+    		return 0L;
+    	}
+    	return likedBy.size();
+    }
 }

@@ -15,21 +15,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.cisco.epx.course.app.dto.LikeCourseDto;
 import com.cisco.epx.course.app.model.Course;
 import com.cisco.epx.course.app.model.CourseChapter;
 
 @Service
 public class CourseService {
 
+	private static final Logger log = LoggerFactory.getLogger(CourseService.class);
 	private static final String COURSES_AND_CHAPTERS = "%s/course/%s/chapters";
 
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Value("${epx.service.url}")
-	private String serviceUrl;
-	
-	private static final Logger log = LoggerFactory.getLogger(CourseService.class);
+	private String serviceUrl;		
 	
 	private static final String COURSE = "/course/";
 	private static final String CHAPTER = "/chapters/";
@@ -83,6 +83,14 @@ public class CourseService {
 	public void updateChapterQuestion(CourseChapter courseChapter) {
 		String url = String.format(COURSES_AND_CHAPTERS,serviceUrl,courseChapter.getCourseId());		
 		restTemplate.postForEntity(url, courseChapter, CourseChapter.class);
+	}
+	public void likeCourse(LikeCourseDto likeCourseDto) {
+		String url = String.format("%s/course/like",serviceUrl);		
+		restTemplate.postForEntity(url, likeCourseDto, LikeCourseDto.class);
+	}
+	public void unlikeCourse(LikeCourseDto likeCourseDto) {
+		String url = String.format("%s/course/unlike",serviceUrl);		
+		restTemplate.postForEntity(url, likeCourseDto, LikeCourseDto.class);
 	}
 	
 }

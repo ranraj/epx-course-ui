@@ -47,11 +47,17 @@
 									</label> <label for="name" class="col-form-label" th:text="*{chapter.name}"></label>
 								</div>
 							</div>
-							
+							<div class="row">
+								<div class="form-group col-md-8">
+									<label for="name" class="col-form-label">Number of questions</label> : 
+									</label> <label for="name" class="col-form-label" th:text="${noOfQuestions}">  
+									
+								</div>
+							</div>
 							<div class="row">
 								<div class="form-group col-md-8">
 									<label for="name" class="col-form-label">Last Exam Score : 
-									</label> <label for="name" class="col-form-label" th:text="${score + '/' + totalMarks}">  
+									</label> <label for="name" class="col-form-label" th:text="${score }">  
 									
 								</div>
 							</div>

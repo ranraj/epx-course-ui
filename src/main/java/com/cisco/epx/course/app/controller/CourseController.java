@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cisco.epx.course.app.config.AppConstant;
+import com.cisco.epx.course.app.dto.LikeCourseDto;
 import com.cisco.epx.course.app.model.AnswerType;
 import com.cisco.epx.course.app.model.ChapterQuestion;
 import com.cisco.epx.course.app.model.Course;
@@ -65,8 +66,10 @@ public class CourseController {
 	}
 
 	@GetMapping("list")
-	public String showUpdateForm(Model model) {
+	public String showListCourses(Model model,HttpServletRequest request) {
 		model.addAttribute(COURSES, courseService.findAll());
+		String userId = getSessionStoredUserId(request);
+		model.addAttribute("userId",userId);
 		return PageTemplates.LIST_COURSES.getId();
 	}
 
@@ -75,12 +78,16 @@ public class CourseController {
 		if (result.hasErrors()) {
 			return PageTemplates.ADD_COURSE.getId();
 		}
-		String userId = (String)request.getSession().getAttribute(AppConstant.USER_ID);	
+		String userId = getSessionStoredUserId(request);
 		course.setOwnerId(userId);
 		courseService.save(course);
 		return "redirect:list";
 	}
 
+	private String getSessionStoredUserId(HttpServletRequest request){
+		String userId = (String)request.getSession().getAttribute(AppConstant.USER_ID);
+		return userId;
+	}
 	@GetMapping("edit/{id}")
 	public String showUpdateForm(@PathVariable("id") String id, Model model) {
 		Course course = courseService.findById(id)
@@ -104,7 +111,18 @@ public class CourseController {
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
 		model.addAttribute(COURSE, course);
 		model.addAttribute("chapters", courseService.findAllChapters(id));
-
+		String userId = getSessionStoredUserId(request);
+		
+		LikeCourseDto likeCourse = new LikeCourseDto(course.getId(),userId);
+		model.addAttribute("likeCourse", likeCourse);
+		
+		boolean liked = false;
+		if(course.getLikedBy()!= null) {
+			liked = course.getLikedBy().contains(userId);
+		}
+				
+		model.addAttribute("liked",liked);
+		
 		return PageTemplates.LEARN_COURSE.getId();
 	}
 
@@ -169,6 +187,7 @@ public class CourseController {
 
 		model.addAttribute("chapter", courseChapter);
 		model.addAttribute("answerTypes", Arrays.asList(AnswerType.values()));
+		
 		ChapterQuestion question = new ChapterQuestion();
 		question.setId(UUID.randomUUID().toString());
 		model.addAttribute("question",question);
@@ -208,7 +227,7 @@ public class CourseController {
 		model.addAttribute("chapter", courseChapter);
 
 		model.addAttribute("answerSheet", courseChapter.getExamChapter());
-
+		
 		return PageTemplates.LEARN_CHAPTER_QUESTIONS.getId();
 	}
 
@@ -231,8 +250,8 @@ public class CourseController {
 			
 			total = examResult.getQuestions().size();
 		}
-		model.addAttribute("score", scoreOpt.orElse(0.0D));
-		model.addAttribute("totalMarks", total);
+		model.addAttribute("score", scoreOpt.orElse(0.0D) * 100);
+		model.addAttribute("noOfQuestions", total);
 		
 		model.addAttribute(COURSE, course);
 
@@ -255,4 +274,17 @@ public class CourseController {
 //		
 //		return "learn-chapter-questions-result";
 //	}
+	
+	@PostMapping("like")
+	public String likeCourse(@Valid LikeCourseDto likeCourseDto) {
+		 
+		courseService.likeCourse(likeCourseDto);
+		return "redirect:list";
+	}
+	@PostMapping("unlike")
+	public String unlikeCourse(@Valid LikeCourseDto likeCourseDto) {
+		 
+		courseService.unlikeCourse(likeCourseDto);
+		return "redirect:list";
+	}
 }

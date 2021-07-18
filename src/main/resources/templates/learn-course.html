@@ -2,7 +2,8 @@
 <html>
 <head>
 <!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
-<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Learn Course</title>
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Learn
+	Course</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -12,13 +13,17 @@
 	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
 	crossorigin="anonymous">
 <script type="text/javascript">
-	function openPopup(url){
+	function openPopup(url) {
 
-		  var pathname = (window.location.pathname);
-		  window.open(url,'','width=800,height=450,resizable=yes,dependent,screenx=80,screeny=80,left=80,top=20,scrollbars=no'); 
-		  return false;
-		}
-	</script>
+		var pathname = (window.location.pathname);
+		window
+				.open(
+						url,
+						'',
+						'width=800,height=450,resizable=yes,dependent,screenx=80,screeny=80,left=80,top=20,scrollbars=no');
+		return false;
+	}
+</script>
 </head>
 <body>
 	<!--/* Standard layout can be mixed with Layout Dialect */-->
@@ -46,7 +51,31 @@
 								</div>
 							</div>
 
-
+							<div class="row">
+								<div class="form-group col-md-8">
+									<div
+										th:if="${liked}">
+										<form action="#" th:action="@{/courses/unlike}"
+										th:object="${likeCourse}" method="post">
+										<input type="hidden" th:field="*{userId}" /> <input
+											type="hidden" th:field="*{courseId}" />
+										<button type="submit">Unlike</button>
+									</form>
+									</div>
+									<div
+										th:if="${!liked}">
+										<form action="#" th:action="@{/courses/like}"
+										th:object="${likeCourse}" method="post">
+										<input type="hidden" th:field="*{userId}" /> <input
+											type="hidden" th:field="*{courseId}" />
+										<button type="submit">Like</button>
+									</form>
+									</div>
+									
+									<label for="likes" class="col-form-label"
+										th:text="*{course.likes}"></label>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -81,10 +110,10 @@
 							</div> -->
 
 								<div class="form-group col-md-6">
-								<a th:href="@{/courses/learn/{courseId}/chapters/{chapterId}/exam(courseId=${chapter.courseId},chapterId=${chapter.id})}">
-									<input
-										type="button" class="btn btn-primary" value="Try Test">
-										</a>
+									<a
+										th:href="@{/courses/learn/{courseId}/chapters/{chapterId}/exam(courseId=${chapter.courseId},chapterId=${chapter.id})}">
+										<input type="button" class="btn btn-primary" value="Try Test">
+									</a>
 								</div>
 
 								<div class="form-group col-md-8"></div>

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
-<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">View Courses</title>
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-	crossorigin="anonymous">
+	<!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
+	<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">View Courses</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+		integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
+
 <body>
 	<!--/* Standard layout can be mixed with Layout Dialect */-->
 	<div th:replace="fragments/header :: header"></div>
@@ -19,13 +17,13 @@
 		<div layout:fragment="content">
 			<div class="container my-2">
 				<div class="card">
-				
+
 					<div class="card-body">
-					<h2 >Courses</h2>
+						<h2>Courses</h2>
 						<div th:switch="${courses}" class="container my-5">
 							<p class="my-5" sec:authorize="isAuthenticated()">
-								<a href="/courses/add" class="btn btn-primary"><i
-									class="fas fa-user-plus ml-2"> Add Course</i></a>
+								<a href="/courses/add" class="btn btn-primary"><i class="fas fa-user-plus ml-2"> Add
+										Course</i></a>
 							</p>
 							<div class="col-md-10">
 								<h2 th:case="null">No course found!</h2>
@@ -34,8 +32,7 @@
 										<thead>
 											<tr>
 												<th>Name</th>
-												<th>OwnerId</th>
-												<th>Category</th>
+												<th>Likes</th>												
 												<th sec:authorize="isAuthenticated()">Edit</th>
 												<th sec:authorize="isAuthenticated()">Delete</th>
 												<th sec:authorize="isAuthenticated()">Add Chapter</th>
@@ -44,20 +41,31 @@
 										</thead>
 										<tbody>
 											<tr th:each="course : ${courses}">
-												<td th:text="${course.name}"></td>
-												<td th:text="${course.ownerId}"></td>
-												<td th:text="${course.category}"></td>
-												<td sec:authorize="isAuthenticated()"><a th:href="@{/courses/edit/{id}(id=${course.id})}"
-													class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>
-												<td sec:authorize="isAuthenticated()"><a
-													th:href="@{/courses/delete/{id}(id=${course.id})}"
-													class="btn btn-primary"><i class="fas fa-times ml-2"></i></a></td>
-												<td sec:authorize="isAuthenticated()"><a
-													th:href="@{/courses/view/{id}/chapters/add(id=${course.id})}"
-													class="btn btn-primary"><i class="fas fa-plus ml-2"></i></a></td>
-												<td ><a th:href="@{/courses/view/{id}(id=${course.id})}"
-													class="btn btn-primary"><i
-														class="fas fa-book-open ml-2"></i></a></td>
+												<td th:text="${course.name}"></td>												
+												<td th:text="${course.likes}"></td>
+												
+												<td sec:authorize="isAuthenticated()">
+													<div th:if="${userId.equals(course.ownerId)}"><a
+															th:href="@{/courses/edit/{id}(id=${course.id})}"
+															class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a>
+													</div>
+												</td>
+												<td sec:authorize="isAuthenticated()">
+													<div th:if="${userId.equals(course.ownerId)}"><a
+															th:href="@{/courses/delete/{id}(id=${course.id})}"
+															class="btn btn-primary"><i
+																class="fas fa-times ml-2"></i></a>
+													</div>
+												</td>
+												<td sec:authorize="isAuthenticated()">													
+													<div th:if="${#strings.equals(userId,course.ownerId)}"><a
+															th:href="@{/courses/view/{id}/chapters/add(id=${course.id})}"
+															class="btn btn-primary"><i class="fas fa-plus ml-2"></i></a>
+													</div>
+												</td>
+												<td><a th:href="@{/courses/view/{id}(id=${course.id})}"
+														class="btn btn-primary"><i
+															class="fas fa-book-open ml-2"></i></a></td>
 											</tr>
 										</tbody>
 									</table>
@@ -69,8 +77,9 @@
 				</div>
 			</div>
 		</div>
-		<div th:replace="fragments/footer :: footer">&copy; 2014 The
+		<div th:replace="fragments/footer :: footer">&copy; 2021 The
 			Static Templates</div>
 	</div>
 </body>
+
 </html>
