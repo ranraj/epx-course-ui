@@ -3,13 +3,18 @@ package com.cisco.epx.course.app.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.OptionalDouble;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.PingHealthIndicator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,37 +37,43 @@ import com.cisco.epx.course.app.services.UserService;
 @RequestMapping("/courses/")
 public class CourseController {
 
+	private static final Logger log = LoggerFactory.getLogger(CourseService.class);
+	
 	private static final String INVALID_COURSE_ID = "Invalid course Id:";
 	private static final String COURSES = "courses";
 	private static final String COURSE = "course";
-
+	
 	@Autowired
 	private CourseService courseService;
 
 	@Autowired
 	private UserService userService;
-
+	
+	@Autowired
+	private PingHealthIndicator pingHealthIndicator;
+	
 	@GetMapping("add")
 	public String showSignUpForm(Course course) {
-		return "add-course";
+		return PageTemplates.ADD_COURSE.getId();
 	}
 
 	@GetMapping
 	public String index(Model model) {
-
-		return "index";
+		Health health = pingHealthIndicator.getHealth(false);
+		log.info("Wakeup call to service, Status : {}",health.getStatus());
+		return PageTemplates.INDEX.getId();
 	}
 
 	@GetMapping("list")
 	public String showUpdateForm(Model model) {
 		model.addAttribute(COURSES, courseService.findAll());
-		return "list-courses";
+		return PageTemplates.LIST_COURSES.getId();
 	}
 
 	@PostMapping("add")
 	public String addCourse(@Valid Course course, BindingResult result, Model model,HttpServletRequest request) {
 		if (result.hasErrors()) {
-			return "add-course";
+			return PageTemplates.ADD_COURSE.getId();
 		}
 		String userId = (String)request.getSession().getAttribute(AppConstant.USER_ID);	
 		course.setOwnerId(userId);
@@ -75,7 +86,7 @@ public class CourseController {
 		Course course = courseService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
 		model.addAttribute(COURSE, course);
-		return "update-course";
+		return PageTemplates.UPDATE_COURSE.getId();
 	}
 
 	/**
@@ -94,18 +105,18 @@ public class CourseController {
 		model.addAttribute(COURSE, course);
 		model.addAttribute("chapters", courseService.findAllChapters(id));
 
-		return "learn-course";
+		return PageTemplates.LEARN_COURSE.getId();
 	}
 
 	@PostMapping("update/{id}")
 	public String updateCourse(@PathVariable("id") String id, @Valid Course course, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return "update-course";
+			return PageTemplates.UPDATE_COURSE.getId();
 		}
 
 		courseService.save(course);
 		model.addAttribute(COURSES, courseService.findAll());
-		return "index";
+		return PageTemplates.INDEX.getId();
 	}
 
 	@GetMapping("delete/{id}")
@@ -114,7 +125,7 @@ public class CourseController {
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
 		courseService.delete(course);
 		model.addAttribute(COURSES, courseService.findAll());
-		return "index";
+		return PageTemplates.INDEX.getId();
 	}
 
 	@GetMapping("view/{courseId}/chapters/add")
@@ -125,7 +136,7 @@ public class CourseController {
 
 		model.addAttribute("chapters", courseService.findAllChapters(courseId));
 		model.addAttribute("chapter", new CourseChapter());
-		return "add-course-chapter";
+		return PageTemplates.ADD_COURSE_CHAPTER.getId();
 	}
 
 	@PostMapping("view/{courseId}/chapters/add")
@@ -161,7 +172,7 @@ public class CourseController {
 		ChapterQuestion question = new ChapterQuestion();
 		question.setId(UUID.randomUUID().toString());
 		model.addAttribute("question",question);
-		return "add-chapter-questions";
+		return PageTemplates.ADD_CHAPTER_QUESTIONS.getId();
 	}
 
 	@PostMapping("view/{courseId}/chapters/{chapterId}/questions/add")
@@ -169,7 +180,7 @@ public class CourseController {
 			@PathVariable("chapterId") String chapterId, @Valid ChapterQuestion examQuestion, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
-			return "add-chapter-questions";
+			return PageTemplates.ADD_CHAPTER_QUESTIONS.getId();
 		}
 		CourseChapter courseChapter = courseService.findChapterById(courseId, chapterId)
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
@@ -198,7 +209,7 @@ public class CourseController {
 
 		model.addAttribute("answerSheet", courseChapter.getExamChapter());
 
-		return "learn-chapter-questions";
+		return PageTemplates.LEARN_CHAPTER_QUESTIONS.getId();
 	}
 
 	@PostMapping("learn/{courseId}/chapters/{chapterId}/exam")
@@ -213,19 +224,20 @@ public class CourseController {
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
 		CourseChapter courseChapter = courseService.findChapterById(courseId, chapterId).orElse(new CourseChapter());
 		
-		double score = 0.0D;
+		OptionalDouble scoreOpt = OptionalDouble.empty();
 		int total = 0;
 		if(examResult!=null) {
-			score = examResult.getQuestions().stream().map(a -> a.getScore()).reduce(0.0D, (a,x) -> a+x);
+			scoreOpt  = examResult.getQuestions().stream().mapToDouble(a -> a.getScore()).average();
+			
 			total = examResult.getQuestions().size();
 		}
-		model.addAttribute("score", score);
+		model.addAttribute("score", scoreOpt.orElse(0.0D));
 		model.addAttribute("totalMarks", total);
 		
 		model.addAttribute(COURSE, course);
 
 		model.addAttribute("chapter", courseChapter);
-		return "learn-chapter-questions-result";
+		return PageTemplates.LEARN_CHAPTER_QUESTIONS_RESULT.getId();
 	}
 	
 	// TODO : List all result

@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -19,13 +21,15 @@ import com.cisco.epx.course.app.model.CourseChapter;
 @Service
 public class CourseService {
 
+	private static final String COURSES_AND_CHAPTERS = "%s/course/%s/chapters";
+
 	@Autowired
 	private RestTemplate restTemplate;
 
 	@Value("${epx.service.url}")
 	private String serviceUrl;
 	
-	
+	private static final Logger log = LoggerFactory.getLogger(CourseService.class);
 	
 	private static final String COURSE = "/course/";
 	private static final String CHAPTER = "/chapters/";
@@ -53,15 +57,14 @@ public class CourseService {
 	}
 
 	public List<CourseChapter> findAllChapters(String courseId) {
-		String url = String.format("%s/course/%s/chapters",serviceUrl,courseId);		
+		String url = String.format(COURSES_AND_CHAPTERS,serviceUrl,courseId);		
 		ResponseEntity<CourseChapter[]> response = restTemplate
 				.getForEntity(url, CourseChapter[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	public void addChapter(CourseChapter courseChapter) {
-		String url = String.format("%s/course/%s/chapters",serviceUrl,courseChapter.getCourseId());		
-		restTemplate.postForEntity(url, courseChapter, CourseChapter.class);
+		updateChapterQuestion(courseChapter);
 	}
 
 	public void deleteChapter(String courseId, String chapterId) {
@@ -78,7 +81,7 @@ public class CourseService {
 	}
 	
 	public void updateChapterQuestion(CourseChapter courseChapter) {
-		String url = String.format("%s/course/%s/chapters",serviceUrl,courseChapter.getCourseId());		
+		String url = String.format(COURSES_AND_CHAPTERS,serviceUrl,courseChapter.getCourseId());		
 		restTemplate.postForEntity(url, courseChapter, CourseChapter.class);
 	}
 	
