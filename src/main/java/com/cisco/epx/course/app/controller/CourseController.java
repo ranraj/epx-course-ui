@@ -60,11 +60,12 @@ public class CourseController {
 	}
 
 	@PostMapping("add")
-	public String addCourse(@Valid Course course, BindingResult result, Model model) {
+	public String addCourse(@Valid Course course, BindingResult result, Model model,HttpServletRequest request) {
 		if (result.hasErrors()) {
 			return "add-course";
 		}
-
+		String userId = (String)request.getSession().getAttribute(AppConstant.USER_ID);	
+		course.setOwnerId(userId);
 		courseService.save(course);
 		return "redirect:list";
 	}

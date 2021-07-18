@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception {
 
-		httpSecurity.csrf().disable().antMatcher("/**").authorizeRequests().antMatchers("/", "/courses/list")
+		httpSecurity.csrf().disable().antMatcher("/**").authorizeRequests().antMatchers("/","/actuator/**", "/courses/list")
 				.permitAll().antMatchers("/courses/view", "/courses/add").authenticated().anyRequest().authenticated()
 				.and().oauth2Login()
 				// .loginPage("/login")
