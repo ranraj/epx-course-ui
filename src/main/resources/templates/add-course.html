@@ -26,10 +26,10 @@
 								th:object="${course}" method="post">
 								<div class="row">
 									<div class="form-group col-md-8">
-										<label for="name" class="col-form-label">Name</label> <input
-											type="text" th:field="*{name}" class="form-control" id="name"
-											placeholder="Name"> <span
-											th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+										<label for="name" class="col-form-label">Title</label> <input
+											type="text" th:field="*{name}" class="form-control" id="title"
+											placeholder="Title"> <span
+											th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
 											class="text-danger"></span>
 									</div>
 									<div class="form-group col-md-8">

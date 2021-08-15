@@ -69,10 +69,10 @@
 									</div>
 									<div class="form-group col-md-8">
 										<label for="title" class="col-form-label">Video Link</label> <input
-											type="text" th:field="*{videoLink}" class="form-control"
-											id="videoLink" placeholder="Youtube Video Link with embed">
-										<span th:if="${#fields.hasErrors('videoLink')}"
-											th:errors="*{videoLink}" class="text-danger"></span>
+											type="text" th:field="*{content.youTubeVideoLink}" class="form-control"
+											id="youTubeVideoLink" placeholder="Youtube Video Link">
+										<span th:if="${#fields.hasErrors('content.youTubeVideoLink')}"
+											th:errors="*{content.youTubeVideoLink}" class="text-danger"></span>
 									</div>
 									<div class="form-group col-md-8">
 										<label for="tags" class="col-form-label">Tags</label> <input
@@ -114,7 +114,8 @@
 											<tr th:each="chapter : ${chapters}">
 												<td th:text="${chapter.name}"></td>
 												<td th:text="${chapter.title}"></td>
-												<td th:text="${chapter.videoLink}"></td>
+												
+												<td th:text="${chapter.content !=null ? chapter.content.youTubeVideoId: ''}"></td>
 												<td><a
 													th:href="@{/courses/edit/{id}(id=${chapter.id})}"
 													class="btn btn-primary"><i class="fas fa-edit ml-2"></i></a></td>

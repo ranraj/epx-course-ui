@@ -91,7 +91,7 @@
 							<div class="form-group col-md-8">
 								<iframe th:if="${chapter.videoLink != ''}"
 									class="form-group col-md-12" height="400"
-									th:src="*{chapter.videoLink}" title="YouTube video player"
+									th:src="|https://www.youtube.com/embed/${chapter.content.youTubeVideoId}|" title="YouTube video player"
 									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 									allowfullscreen></iframe>
 								<span th:if="${chapter.videoLink == ''}"> Learning

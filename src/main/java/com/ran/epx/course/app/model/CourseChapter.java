@@ -18,7 +18,9 @@ public class CourseChapter {
     private List<ChapterQuestion> examQuestions;   
     private float version;
     private boolean deleted;
-    private String courseId;
+    private String courseId;    
+    private ContentProvider contentProvider;
+    private ChapterContent content;
     
     public ExamChapter getExamChapter() {
 		ExamChapter examChapter = new ExamChapter();

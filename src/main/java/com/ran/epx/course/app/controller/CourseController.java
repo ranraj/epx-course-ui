@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ran.epx.course.app.config.AppConstant;
 import com.ran.epx.course.app.dto.LikeCourseDto;
 import com.ran.epx.course.app.model.AnswerType;
+import com.ran.epx.course.app.model.ChapterContent;
 import com.ran.epx.course.app.model.ChapterQuestion;
 import com.ran.epx.course.app.model.Course;
 import com.ran.epx.course.app.model.CourseChapter;
@@ -153,16 +154,18 @@ public class CourseController {
 		model.addAttribute(COURSE, course);
 
 		model.addAttribute("chapters", courseService.findAllChapters(courseId));
-		model.addAttribute("chapter", new CourseChapter());
+		CourseChapter chapter = new CourseChapter();
+		chapter.setContent(new ChapterContent());
+		model.addAttribute("chapter", chapter);
 		return PageTemplates.ADD_COURSE_CHAPTER.getId();
 	}
 
 	@PostMapping("view/{courseId}/chapters/add")
-	public String addCourse(@Valid CourseChapter courseChapter, BindingResult result, Model model) {
+	public String addCourseChapter(@Valid CourseChapter courseChapter, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			return "add-course-chapter";
-		}
-
+		}		
+		
 		courseService.addChapter(courseChapter);
 		return "redirect:/courses/view/" + courseChapter.getCourseId() + "/chapters/add";
 	}
@@ -226,7 +229,6 @@ public class CourseController {
 
 		model.addAttribute("chapter", courseChapter);
 
-		model.addAttribute("answerSheet", courseChapter.getExamChapter());
 		
 		return PageTemplates.LEARN_CHAPTER_QUESTIONS.getId();
 	}

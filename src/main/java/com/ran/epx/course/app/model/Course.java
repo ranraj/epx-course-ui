@@ -2,6 +2,7 @@ package com.ran.epx.course.app.model;
 
 import java.util.List;
 
+
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,6 +22,8 @@ public class Course {
     private List<String> likedBy;  
     private float version;
     private boolean deleted;     
+    private ContentProvider contentProvider;
+    private ChapterContent content;
     
     public long getLikes() {
     	if(likedBy == null) {
