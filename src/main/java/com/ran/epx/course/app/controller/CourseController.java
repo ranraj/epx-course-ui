@@ -29,6 +29,7 @@ import com.ran.epx.course.app.dto.LikeCourseDto;
 import com.ran.epx.course.app.model.AnswerType;
 import com.ran.epx.course.app.model.ChapterContent;
 import com.ran.epx.course.app.model.ChapterQuestion;
+import com.ran.epx.course.app.model.ContentProvider;
 import com.ran.epx.course.app.model.Course;
 import com.ran.epx.course.app.model.CourseChapter;
 import com.ran.epx.course.app.model.ExamChapter;
@@ -38,6 +39,10 @@ import com.ran.epx.course.app.services.UserService;
 @Controller
 @RequestMapping("/courses/")
 public class CourseController {
+
+	private static final String CHAPTERS = "chapters";
+
+	private static final String CHAPTER = "chapter";
 
 	private static final Logger log = LoggerFactory.getLogger(CourseService.class);
 	
@@ -111,7 +116,7 @@ public class CourseController {
 		Course course = courseService.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + id));
 		model.addAttribute(COURSE, course);
-		model.addAttribute("chapters", courseService.findAllChapters(id));
+		model.addAttribute(CHAPTERS, courseService.findAllChapters(id));
 		String userId = getSessionStoredUserId(request);
 		
 		LikeCourseDto likeCourse = new LikeCourseDto(course.getId(),userId);
@@ -153,10 +158,10 @@ public class CourseController {
 				.orElseThrow(() -> new IllegalArgumentException(INVALID_COURSE_ID + courseId));
 		model.addAttribute(COURSE, course);
 
-		model.addAttribute("chapters", courseService.findAllChapters(courseId));
+		model.addAttribute(CHAPTERS, courseService.findAllChapters(courseId));
 		CourseChapter chapter = new CourseChapter();
 		chapter.setContent(new ChapterContent());
-		model.addAttribute("chapter", chapter);
+		model.addAttribute(CHAPTER, chapter);
 		return PageTemplates.ADD_COURSE_CHAPTER.getId();
 	}
 
@@ -165,7 +170,8 @@ public class CourseController {
 		if (result.hasErrors()) {
 			return "add-course-chapter";
 		}		
-		
+		//Currently supporting only Youtube
+		courseChapter.setContentProvider(ContentProvider.YOUTUBE);
 		courseService.addChapter(courseChapter);
 		return "redirect:/courses/view/" + courseChapter.getCourseId() + "/chapters/add";
 	}
@@ -188,7 +194,7 @@ public class CourseController {
 
 		model.addAttribute(COURSE, course);
 
-		model.addAttribute("chapter", courseChapter);
+		model.addAttribute(CHAPTER, courseChapter);
 		model.addAttribute("answerTypes", Arrays.asList(AnswerType.values()));
 		
 		ChapterQuestion question = new ChapterQuestion();
@@ -227,7 +233,7 @@ public class CourseController {
 
 		model.addAttribute(COURSE, course);
 
-		model.addAttribute("chapter", courseChapter);
+		model.addAttribute(CHAPTER, courseChapter);
 
 		
 		return PageTemplates.LEARN_CHAPTER_QUESTIONS.getId();
@@ -257,7 +263,7 @@ public class CourseController {
 		
 		model.addAttribute(COURSE, course);
 
-		model.addAttribute("chapter", courseChapter);
+		model.addAttribute(CHAPTER, courseChapter);
 		return PageTemplates.LEARN_CHAPTER_QUESTIONS_RESULT.getId();
 	}
 	
